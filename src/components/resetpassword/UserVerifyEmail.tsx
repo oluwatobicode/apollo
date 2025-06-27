@@ -1,6 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useResetPassword } from "../../contexts/ResetPasswordProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
+import { clearError, resetUserPassword } from "../../features/auth/authSlice";
 
 interface userVerifyEmailData {
   email: string;
@@ -8,6 +11,9 @@ interface userVerifyEmailData {
 
 const UserVerifyEmail = () => {
   const { email, setEmail, goToNextStep } = useResetPassword();
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading } = useSelector((state: RootState) => state.auth);
 
   const {
     register,
@@ -23,6 +29,15 @@ const UserVerifyEmail = () => {
     console.log(formData);
     setEmail(formData.email);
     goToNextStep();
+
+    dispatch(clearError());
+    // try {
+    //   const result = await dispatch(
+    //     resetUserPassword({
+    //       email: formData.email,
+    //     })
+    //   ).unwrap();
+    // } catch (error) {}
   };
 
   const navigate = useNavigate();

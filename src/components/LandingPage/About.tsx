@@ -4,7 +4,7 @@ function About() {
       <div className="">
         <div className="flex flex-col items-center justify-center">
           <h2 className="md:text-[48px] text-[20px] md:w-[709px] mb-5 font-fontTwo font-bold text-center md:leading-[56.25px] leading-normal">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Smart Conversations. Instant Help.
           </h2>
           <div className="bg-textColor rounded-3xl  flex items-center justify-center mb-10">
             <img
@@ -16,7 +16,7 @@ function About() {
 
           <div className="flex flex-col items-center justify-center mb-10 w-full">
             <h2 className="md:text-[48px]  text-[20px]  md:w-[709px] mb-5 font-fontTwo font-bold text-center md:leading-[56.25px] leading-normal">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Saved Conversations. Never Lose a Thought.
             </h2>
             <div className="bg-textColor rounded-3xl  h-fit flex items-center justify-center">
               <img

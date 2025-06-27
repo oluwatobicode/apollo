@@ -1,7 +1,15 @@
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../app/store";
+import { useDispatch } from "react-redux";
+import { logInWithGoogle } from "../../features/auth/authSlice";
 
 function OnBoarding() {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleGoogleLogin = () => {
+    dispatch(logInWithGoogle());
+  };
 
   return (
     <div className="flex items-center justify-center w-full h-screen">
@@ -35,7 +43,10 @@ function OnBoarding() {
             <span className="border-t-2 w-[100px] border-textColor "></span>
           </div>
 
-          <button className="text-textColor text-[20px] font-fontOne font-semiBold leading-[25.6px] border-2 flex items-center justify-center border-textColor w-[350px] h-[50px] rounded-lg">
+          <button
+            onClick={handleGoogleLogin}
+            className="text-textColor text-[20px] font-fontOne font-semiBold leading-[25.6px] border-2 flex items-center justify-center border-textColor w-[350px] h-[50px] rounded-lg"
+          >
             <img src="/google.svg" className="w-[50px]" alt="" />
             Continue with gmail
           </button>

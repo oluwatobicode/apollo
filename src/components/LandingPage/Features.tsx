@@ -5,13 +5,13 @@ const features = [
   //   img: "https://res.cloudinary.com/ddbld6szb/image/upload/MobileChat_mhjrnu.png",
   // },
   {
-    name: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    name: "Ask Anything. Get Precise Answers.",
+    desc: "Type in any academic question and Apollo responds with reliable, concise, and student-friendly explanations.",
     img: "https://res.cloudinary.com/ddbld6szb/image/upload/DesktopHome_urvqli.png",
   },
   {
-    name: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    name: "Explore Subjects with Ease.",
+    desc: "Navigate between Math, Science, Literature, and more. Apollo is designed to support a wide range of school subjects.",
     img: "https://res.cloudinary.com/ddbld6szb/image/upload/DesktopHome_urvqli.png",
   },
 ];

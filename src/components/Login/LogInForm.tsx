@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { AppDispatch, RootState } from "../../app/store";
+import { useDispatch, useSelector } from "react-redux";
+
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { logInUser, clearError } from "../../features/auth/authSlice";
+import toast from "react-hot-toast";
+import MiniLoader from "../../ui/MiniSpinner";
 
 interface logInData {
   email: string;
@@ -10,6 +16,11 @@ interface logInData {
 
 function LogInForm({ email = "", password = "" }: Partial<logInData>) {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { isLoading, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const {
     register,
@@ -28,11 +39,49 @@ function LogInForm({ email = "", password = "" }: Partial<logInData>) {
     setShowPassword(!showPassword);
   };
 
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/chat");
+      toast.success("Logged in successfully!");
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   const onSubmit: SubmitHandler<logInData> = async (data) => {
-    console.log(data);
+    dispatch(clearError());
+
+    try {
+      const result = await dispatch(
+        logInUser({
+          email: data.email,
+          password: data.password,
+        })
+      ).unwrap();
+
+      console.log("Login successful:", result);
+    } catch (error: any) {
+      let errorMessage = "Login failed. Please try again.";
+      if (error?.message) {
+        if (error.message.includes("Invalid login credentials")) {
+          errorMessage =
+            "Invalid email or password. Please check your credentials.";
+        } else if (error.message.includes("Email not confirmed")) {
+          errorMessage = "Please verify your email address before logging in.";
+        } else if (error.message.includes("Too many requests")) {
+          errorMessage = "Too many failed attempts. Please try again later.";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
+      toast.error(errorMessage);
+      console.error("Login failed:", error);
+    }
   };
 
   return (
@@ -56,6 +105,7 @@ function LogInForm({ email = "", password = "" }: Partial<logInData>) {
         <p className="font-medium md:text-[20px] text-[15px] leading-[100%] font-fontOne mb-5">
           <span className="font-bold">APOLLO</span> welcome&apos;s you back!
         </p>
+
         <div className="flex flex-col">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-5">
@@ -91,10 +141,6 @@ function LogInForm({ email = "", password = "" }: Partial<logInData>) {
                   }`}
                   {...register("password", {
                     required: "Password is required!",
-                    pattern: {
-                      value: passwordRegex,
-                      message: "Password is required",
-                    },
                   })}
                 />
 
@@ -116,15 +162,20 @@ function LogInForm({ email = "", password = "" }: Partial<logInData>) {
                 </p>
               )}
 
-              <button className="text-right mt-2 underline font-fontOne font-normal leading-[20.72px] text-[13px]">
+              <button
+                type="button"
+                onClick={() => navigate("/resetPassword")}
+                className="text-right mt-2 underline font-fontOne font-normal leading-[20.72px] text-[13px]"
+              >
                 Forgot Password? Reset
               </button>
             </div>
             <button
               type="submit"
-              className="w-[350px] h-[50px] text-textColorSec bg-textColor font-fontOne rounded-md font-normal text-[16px]"
+              disabled={isLoading || Object.keys(errors).length > 0}
+              className="w-[350px] h-[50px] text-textColorSec bg-textColor font-fontOne rounded-md font-normal text-[16px] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Log In
+              {isLoading ? <MiniLoader /> : "Log In"}
             </button>
           </form>
         </div>

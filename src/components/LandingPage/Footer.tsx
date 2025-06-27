@@ -7,17 +7,12 @@ function Footer() {
     <footer className="bg-textColor mt-[15rem] w-full flex flex-col items-center justify-center">
       <div className="flex flex-col gap-10 p-5 md:p-10 md:w-[700px] w-[400px]">
         <div className="text-center">
-          <p className="text-textColorSec font-fontTwo md:text-[18px] text-[12px] font-bold md:leading-[21.09px] opacity-[60%]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-          </p>
           <h1 className="text-textColorThree font-bold md:text-[50px] text-[20px] leading-7  md:leading-[58.59px] md:mb-2 md:mt-2">
-            Request More <span className="block">Informa</span>
+            Start Learning Smarter with Apollo
           </h1>
           <p className="md:text-[18px] text-[10px] text-textColorSec font-bold md:leading-[21.09px] text-center opacity-[80%]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
-            <span className="block">
-              dolor sit amet, consectetur adipiscing elit.
-            </span>
+            Join hundreds of students already using Apollo to boost their grades
+            and confidence.
           </p>
         </div>
 
@@ -25,7 +20,7 @@ function Footer() {
           <button className="w-[150px] h-[50px] text-xl bg-textColorSec rounded-full font-semibold">
             Contact
           </button>
-          <p className="text-white">&copy; Untix</p>
+          <p className="text-white">&copy; APOLLO</p>
         </div>
 
         <div className="w-[350px] md:w-full flex items-center justify-center h-full flex-wrap pt-5 md:pt-5  border-t-[2px] border-opacity-[10%] border-textColorSec">

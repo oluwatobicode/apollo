@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+import { AppDispatch, RootState } from "../../app/store";
+import { registerUser } from "../../features/auth/authSlice";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import MiniLoader from "../../ui/MiniSpinner";
 
 interface SignUpData {
   firstName: string;
@@ -19,6 +26,11 @@ function SignUpForm({
   confirmPassword = "",
 }: Partial<SignUpData>) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading, error, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -46,7 +58,20 @@ function SignUpForm({
   const Password = watch("password");
 
   const onSubmit: SubmitHandler<SignUpData> = async (data) => {
-    console.log(data);
+    try {
+      const result = await dispatch(
+        registerUser({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+        })
+      ).unwrap();
+      console.log(result);
+      toast.success("Account created successfully!");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -183,7 +208,7 @@ function SignUpForm({
                       : "border-textColor"
                   }`}
                   placeholder="Confirm password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   {...register("confirmPassword", {
                     required: "Please confirm your password!",
                     validate: (value) =>
@@ -211,10 +236,13 @@ function SignUpForm({
 
             <button
               type="submit"
-              disabled={Object.keys(errors).length > 0}
-              className=" w-[350px] h-[50px] text-textColorSec bg-textColor font-fontOne rounded-md font-normal text-[16px]"
+              disabled={Object.keys(errors).length > 0 || isLoading}
+              // className=" "
+              className={`w-[350px] h-[50px] text-[#fff] font-fontOne rounded-md font-normal text-[16px]  bg-textColor ${
+                isLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              }`}
             >
-              Sign Up
+              {isLoading ? <MiniLoader /> : "Sign Up"}
             </button>
           </form>
         </div>
